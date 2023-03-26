@@ -21,6 +21,8 @@ Brown   : GND
 
 //Include IMU library
 #include <DFRobot_BMX160.h>
+//Include Servo library
+#include <Servo.h>
 
 //Define signal pin of Servo
 #define SERVO_PWM_PIN 6
@@ -32,15 +34,18 @@ bmx160SensorData Omagn, Ogyro, Oaccel;
 //I2C address for Gyro
 const int8_t i2c_addr = 0x69;
 
+//Declare global servo object
+Servo myservo;
+
 //Global PWM so that printOut can print it
-int PWM = 0;
+int angle;
 
 //Function to print out IMU data along with Servo PWM
 void printOut() {
   //Get data from I2C registers
   bmx160.getAllData(&Omagn, &Ogyro, &Oaccel);
   //Display PWM
-  Serial.print(PWM);
+  Serial.print(angle);
   //Display the Gyro
   Serial.print(" Gyro:[ ");
   Serial.print(Ogyro.x); Serial.print(" ");
@@ -72,21 +77,20 @@ void setup() {
   //Ensure Gyro is set up
   while (bmx160.begin() != true){
   Serial.print("init false");
-
-  analogWrite(SERVO_PWM_PIN, 200);
-  delay(5000);
+  //Attach servo to servo pin
+  myservo.attach(6);
  }
 }
 
 //Main loop
 void loop() {
   //For every PWM 
-  for(PWM = 1; PWM<= 0xff; PWM++){
+  for(angle = 1; angle<= 180; angle++){
     //Sit at 0 for 2s
-    analogWrite(SERVO_PWM_PIN,0);
+    myservo.write(0);
     delayWhileprintOut(2);
     //Go to chosen PWM for 2s
-    analogWrite(SERVO_PWM_PIN,PWM);
+    myservo.write(angle);
     delayWhileprintOut(2);
   }
 
