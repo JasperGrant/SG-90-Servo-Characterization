@@ -25,7 +25,7 @@ Brown   : GND
 #include <Servo.h>
 
 //Define signal pin of Servo
-#define SERVO_PWM_PIN 6
+#define SERVO_PWM_PIN 9
 
 //Declare global IMU object
 DFRobot_BMX160 bmx160;
@@ -38,14 +38,14 @@ const int8_t i2c_addr = 0x69;
 Servo myservo;
 
 //Global PWM so that printOut can print it
-int angle;
+int pos = 0;
 
 //Function to print out IMU data along with Servo PWM
 void printOut() {
   //Get data from I2C registers
   bmx160.getAllData(&Omagn, &Ogyro, &Oaccel);
   //Display PWM
-  Serial.print(angle);
+  //Serial.print(angle);
   //Display the Gyro
   Serial.print(" Gyro:[ ");
   Serial.print(Ogyro.x); Serial.print(" ");
@@ -73,25 +73,40 @@ void setup() {
   //Start serial
   Serial.begin(115200);
   //Set servo pin to output
-  pinMode(SERVO_PWM_PIN, OUTPUT);
+  //pinMode(SERVO_PWM_PIN, OUTPUT);
   //Ensure Gyro is set up
   while (bmx160.begin() != true){
   Serial.print("init false");
   //Attach servo to servo pin
-  myservo.attach(6);
+  myservo.attach(9);
  }
 }
 
 //Main loop
 void loop() {
   //For every PWM 
+  /*
   for(angle = 1; angle<= 180; angle++){
     //Sit at 0 for 2s
-    myservo.write(0);
+    myservo.write(angle);
+    delay(15);
+  
+    /*
     delayWhileprintOut(2);
     //Go to chosen PWM for 2s
-    myservo.write(angle);
+    myservo.write(90);
     delayWhileprintOut(2);
+/*
+*/
+  for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
+    // in steps of 1 degree
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    delay(15);                       // waits 15 ms for the servo to reach the position
+  }
+  for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    delay(15);                       // waits 15 ms for the servo to reach the position
+
   }
 
 }
