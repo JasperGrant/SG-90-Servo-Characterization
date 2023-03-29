@@ -44,13 +44,18 @@ int pos = 0;
 void printOut() {
   //Get data from I2C registers
   bmx160.getAllData(&Omagn, &Ogyro, &Oaccel);
-  //Display PWM
-  //Serial.print(angle);
+  //Display position
+  Serial.print("Position: ");
+  ;Serial.print(pos);
   //Display the Gyro
   Serial.print(" Gyro:[ ");
   Serial.print(Ogyro.x); Serial.print(" ");
   Serial.print(Ogyro.y); Serial.print(" ");
-  Serial.print(Ogyro.z); Serial.print(" ]\n");
+  Serial.print(Ogyro.z); Serial.print(" ]");
+  Serial.print(" Accel:[ ");
+  Serial.print(Oaccel.x); Serial.print(" ");
+  Serial.print(Oaccel.y); Serial.print(" ");
+  Serial.print(Oaccel.z); Serial.print(" ]\n");
 
 }
 
@@ -78,26 +83,14 @@ void setup() {
   while (bmx160.begin() != true){
   Serial.print("init false");
   //Attach servo to servo pin
-  myservo.attach(9);
+  myservo.attach(SERVO_PWM_PIN);
  }
 }
 
 //Main loop
 void loop() {
   //For every PWM 
-  /*
-  for(angle = 1; angle<= 180; angle++){
-    //Sit at 0 for 2s
-    myservo.write(angle);
-    delay(15);
   
-    /*
-    delayWhileprintOut(2);
-    //Go to chosen PWM for 2s
-    myservo.write(90);
-    delayWhileprintOut(2);
-/*
-*/
   for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
     // in steps of 1 degree
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
