@@ -48,13 +48,13 @@ void printOut() {
   Serial.print("Position: ");
   ;Serial.print(pos);
   //Display the Gyro
-  Serial.print(" Gyro:[ ");
-  Serial.print(Ogyro.x); Serial.print(" ");
-  Serial.print(Ogyro.y); Serial.print(" ");
+  Serial.print(", Gyro:[ ");
+  Serial.print(Ogyro.x); Serial.print(",");
+  Serial.print(Ogyro.y); Serial.print(",");
   Serial.print(Ogyro.z); Serial.print(" ]");
-  Serial.print(" Accel:[ ");
-  Serial.print(Oaccel.x); Serial.print(" ");
-  Serial.print(Oaccel.y); Serial.print(" ");
+  Serial.print(", Accel:[ ");
+  Serial.print(Oaccel.x); Serial.print(",");
+  Serial.print(Oaccel.y); Serial.print(",");
   Serial.print(Oaccel.z); Serial.print(" ]\n");
 
 }
@@ -87,19 +87,23 @@ void setup() {
  }
 }
 
+int temp_pos = 0;
+
 //Main loop
 void loop() {
-  //For every PWM 
-  
-  for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15 ms for the servo to reach the position
-  }
-  for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15 ms for the servo to reach the position
-
+  //For every PWM
+  for(pos = 0; pos < 180; pos+=5){
+    //Stay at 0 for 2s
+    myservo.write(0);
+     //Temp pos allows you to print 0 when your pos is not actually 0.
+    temp_pos = pos;
+    pos = 0;
+    delayWhileprintOut(2);
+    pos = temp_pos;
+    //Go to angle for 2s
+    myservo.write(pos);
+    
+    delayWhileprintOut(2);
   }
 
 }
