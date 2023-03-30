@@ -63,7 +63,7 @@ void printOut() {
 //Takes number of seconds to delay
 void delayWhileprintOut(int seconds){
   //Set starting time
-  int start_time = millis();
+  unsigned long start_time = millis();
   //While number of seconds has not yet passed
   while(millis() < start_time + seconds*1000){
     //Print out data
@@ -81,18 +81,17 @@ void setup() {
   //pinMode(SERVO_PWM_PIN, OUTPUT);
   //Ensure Gyro is set up
   while (bmx160.begin() != true){
-  Serial.print("init false");
+    Serial.print("init false");
+ }
   //Attach servo to servo pin
   myservo.attach(SERVO_PWM_PIN);
- }
 }
 
 int temp_pos = 0;
 
 //Main loop
 void loop() {
-  //For every PWM
-  for(pos = 0; pos < 180; pos+=5){
+  //For every PWM  b  +=5){
     //Stay at 0 for 2s
     myservo.write(0);
      //Temp pos allows you to print 0 when your pos is not actually 0.
@@ -102,7 +101,6 @@ void loop() {
     pos = temp_pos;
     //Go to angle for 2s
     myservo.write(pos);
-    
     delayWhileprintOut(2);
   }
 
