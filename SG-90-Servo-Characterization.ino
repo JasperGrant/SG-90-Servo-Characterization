@@ -44,18 +44,12 @@ int pos = 0;
 void printOut() {
   //Get data from I2C registers
   bmx160.getAllData(&Omagn, &Ogyro, &Oaccel);
+  //Display time
+  Serial.print(millis());  Serial.print(",");
   //Display position
-  Serial.print("Position: ");
-  ;Serial.print(pos);
+  Serial.print(pos); Serial.print(",");
   //Display the Gyro
-  Serial.print(", Gyro:[ ");
-  Serial.print(Ogyro.x); Serial.print(",");
-  Serial.print(Ogyro.y); Serial.print(",");
-  Serial.print(Ogyro.z); Serial.print(" ]");
-  Serial.print(", Accel:[ ");
-  Serial.print(Oaccel.x); Serial.print(",");
-  Serial.print(Oaccel.y); Serial.print(",");
-  Serial.print(Oaccel.z); Serial.print(" ]\n");
+  Serial.print(Ogyro.z); Serial.print("\n");
 
 }
 
@@ -69,7 +63,7 @@ void delayWhileprintOut(int seconds){
     //Print out data
     printOut();
     //Delay 100ms to make the sampling frequency 10 times/second or 0.1Hz
-    delay(100);
+    delay(10);
   }
 
 }
@@ -91,7 +85,8 @@ int temp_pos = 0;
 
 //Main loop
 void loop() {
-  //For every PWM  b  +=5){
+  //For every PWM  b  
+  //for(pos = 0; pos < 180+=5){
     //Stay at 0 for 2s
     myservo.write(0);
      //Temp pos allows you to print 0 when your pos is not actually 0.
@@ -102,6 +97,6 @@ void loop() {
     //Go to angle for 2s
     myservo.write(pos);
     delayWhileprintOut(2);
-  }
+    pos+=5;
 
 }
