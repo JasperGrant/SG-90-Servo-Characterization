@@ -7,3 +7,7 @@ angle = input(:,2);
 vel = input(:,3);
 
 plot(t, angle, t,0.1*cumsum(vel));
+title("Theoretical vs Real World response to different step inputs")
+legend(["Theoretical" "Real World"])
+xlabel("Time (ms)")
+ylabel("Angle (Degrees)")
