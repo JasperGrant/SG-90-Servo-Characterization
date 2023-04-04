@@ -30,10 +30,6 @@ ylabel("Angle (Degrees)")
 % Put into variable for system identification toolbox
 data = iddata(angle_output, angle, 0.01);
 
-% Plot system 
-figure(2)
-plot(data)
-
 % Split data into 26 distinct experiments
 % Bounds of data cut off:
 % Initial negative values as we are not interested in what was left from
@@ -47,7 +43,7 @@ for i=300:300:7500
 end
 
 % Plot for all 26 experiments
-figure(3);
+figure(2);
 plot(multiExperimentData)
 
 % Based on the assumption that the transfer function follows the common
@@ -56,11 +52,11 @@ plot(multiExperimentData)
 tf1 = tf(248.2, [1, 22.53, 241.1]);
 
 % Plot step response for this tf
-figure(4)
+figure(3)
 step(tf1);
 % Plot bode plot for this tf
-figure(5)
+figure(4)
 margin(tf1);
 % Plot nyquist plot for this tf
-figure(6);
+figure(5);
 nyquist(tf1);
