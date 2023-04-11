@@ -54,9 +54,13 @@ tf1 = tf(248.2, [1, 22.53, 241.1]);
 % Plot step response for this tf
 figure(3)
 step(tf1);
-% Plot bode plot for this tf
+% Plot Root locus for this tf
 figure(4)
+rlocus(tf1)
+
+% Plot bode plot for this tf
+figure(5)
 margin(tf1);
 % Plot nyquist plot for this tf
-figure(5);
+figure(6);
 nyquist(tf1);
